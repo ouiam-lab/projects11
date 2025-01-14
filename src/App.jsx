@@ -23,31 +23,33 @@ function App() {
   }, [auth.jwt]);
 
   return (
-    <>
-      
-      {auth.loading?<Loader/> : auth.user ? (
-        <>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/project/:id" element={<ProjectDetails />}></Route>
-            <Route path="/project/update/:id" element={<UpdateProjectForm />}></Route>
-            <Route
-              path="/project/:projectId/issue/:issueId"
-              element={<IssueDetails />}
-            ></Route>
-             <Route
-              path="/accept_invitation"
-              element={<AcceptInvitation />}
-            ></Route>
-            <Route path="/upgrade_plan" element={<Subscription />}></Route>
-            <Route path="/upgrade_plan/success" element={<UpgradeSuccess />}></Route>
-          </Routes>
-        </>
-      ) : (
-        <Auth />
-      )}
-    </>
+      <>
+
+        {auth.loading?<Loader/> : auth.user ? (
+            <>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />}></Route>
+                <Route path="/project/:id" element={<ProjectDetails />}></Route>
+                <Route path="/project/update/:id" element={<UpdateProjectForm />}></Route>
+                <Route
+                    path="/project/:projectId/issue/:issueId"
+                    element={<IssueDetails />}
+                ></Route>
+                <Route
+                    path="/accept_invitation"
+                    element={<AcceptInvitation />}
+                ></Route>
+                <Route path="/upgrade_plan" element={<Subscription />}></Route>
+
+
+                <Route path="/upgrade_plan/success" element={<UpgradeSuccess />}></Route>
+              </Routes>
+            </>
+        ) : (
+            <Auth />
+        )}
+      </>
   );
 }
 
