@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: ./frontend  # Path to your frontend Dockerfile
+    ports:
+      - "5173:80"  # Mapping frontend to port 4000
+    depends_on:
+      - backend  # Wait until the backend is up
+
+  # Backend service (Spring Boot with MariaDB)
+  backend:
+    build:
+      context: ./backend  # Path to your backend Dockerfile
+    ports:
+      - "5054:5054"  # Mapping backend to port 5054
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/projectmanagement  # Use the MariaDB container name
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=ouiam
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_MAIL_HOST=smtp.gmail.com
+      - SPRING_MAIL_PORT=587
+      - SPRING_MAIL_USERNAME=your_email@example.com  # Provide email credentials
+      - SPRING_MAIL_PASSWORD=your_email_password  # Provide email credentials
+      - RAZORPAY_API_KEY=your_razorpay_api_key
+      - RAZORPAY_API_SECRET=your_razorpay_api_secretV
+    depends_on:
+      - mariadb  # Wait for the MariaDB container
+
+  # MariaDB service
+  mariadb:
+    image: mariadb:10.5
+    environment:
+      - MYSQL_ROOT_PASSWORD=ouiam  # Password for the root user
+      - MYSQL_DATABASE=projectmanagement  # Create a default database
+      - MYSQL_USER=root  # User for connecting to the database
+    volumes:
+      - mariadb_data:/var/lib/mysql  # Persist MariaDB data
+
+  # Volumes to persist MariaDB data
+volumes:
+  mariadb_data:
